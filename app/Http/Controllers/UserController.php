@@ -10,9 +10,17 @@ class UserController extends Controller
 {
     public function index(){
     
-      $users = UserModel::where('level_id', 2)->get();
-      $jumlahPengguna = UserModel::where('level_id', 2)->count();
-      return view('user', compact('users', 'jumlahPengguna'));
-        
+      $user = UserModel::firstOrNew(
+        [
+          'username' => 'manager',
+          'nama' => 'Manager',
+          'password' => Hash::make('12345'),
+          'level_id' => 2
+          
+
+        ],
+      );
+      $user->save();
+        return view('user', ['data' => $user]);
     }}
 
