@@ -9,15 +9,14 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function index(){
-//tambah data dengan Eloquent Model
-      $data = [
-        'nama' => 'Pelanggan Pertama',
-      ];
-      UserModel::where('username', 'customer-1')->update($data);
 
+      
 
+  
 
-        $user = UserModel::all(); //ambil semua data dr tabel m_user
-        return view('user', ['data' => $user]);
+      $user = UserModel::find(1); //ambil semua data dr tabel m_user
+      return view('user', ['data' => $user]);
+
+        
     }}
 
