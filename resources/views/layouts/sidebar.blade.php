@@ -1,6 +1,9 @@
 <div class="sidebar">
+
+ 
+
     <!-- Sidebar Search Form -->
-    <div class="form-inline mt-2">
+    <div class="form-inline px-2">
         <div class="input-group" data-widget="sidebar-search">
             <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
             <div class="input-group-append">
@@ -15,26 +18,16 @@
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-            <!-- Dashboard -->
-            <li class="nav-item">
-                <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'dashboard') ? 'active' : '' }}">
-                    <i class="nav-icon fas fa-tachometer-alt"></i>
-                    <p>Dashboard</p>
-                </a>
-            </li>
-
             <!-- Data Pengguna -->
             <li class="nav-header">Data Pengguna</li>
-
             <li class="nav-item">
-                <a href="{{ url('/level') }}" class="nav-link {{ ($activeMenu == 'level') ? 'active' : '' }}">
+                <a href="{{ url('/level') }}" class="nav-link {{ $activeMenu == 'level' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-layer-group"></i>
                     <p>Level User</p>
                 </a>
             </li>
-
             <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link {{ ($activeMenu == 'user') ? 'active' : '' }}">
+                <a href="{{ url('/user') }}" class="nav-link {{ $activeMenu == 'user' ? 'active' : '' }}">
                     <i class="nav-icon far fa-user"></i>
                     <p>Data User</p>
                 </a>
@@ -42,16 +35,14 @@
 
             <!-- Data Barang -->
             <li class="nav-header">Data Barang</li>
-
             <li class="nav-item">
-                <a href="{{ url('/kategori') }}" class="nav-link {{ ($activeMenu == 'kategori') ? 'active' : '' }}">
+                <a href="{{ url('/kategori') }}" class="nav-link {{ $activeMenu == 'kategori' ? 'active' : '' }}">
                     <i class="nav-icon far fa-bookmark"></i>
                     <p>Kategori Barang</p>
                 </a>
             </li>
-
             <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ ($activeMenu == 'barang') ? 'active' : '' }}">
+                <a href="{{ url('/barang') }}" class="nav-link {{ $activeMenu == 'barang' ? 'active' : '' }}">
                     <i class="nav-icon far fa-list-alt"></i>
                     <p>Data Barang</p>
                 </a>
@@ -59,21 +50,35 @@
 
             <!-- Data Transaksi -->
             <li class="nav-header">Data Transaksi</li>
-
             <li class="nav-item">
-                <a href="{{ url('/stok') }}" class="nav-link {{ ($activeMenu == 'stok') ? 'active' : '' }}">
+                <a href="{{ url('/stok') }}" class="nav-link {{ $activeMenu == 'stok' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cubes"></i>
                     <p>Stok Barang</p>
                 </a>
             </li>
-
             <li class="nav-item">
-                <a href="{{ url('/barang') }}" class="nav-link {{ ($activeMenu == 'penjualan') ? 'active' : '' }}">
+                <a href="{{ url('/penjualan') }}" class="nav-link {{ $activeMenu == 'penjualan' ? 'active' : '' }}">
                     <i class="nav-icon fas fa-cash-register"></i>
                     <p>Transaksi Penjualan</p>
                 </a>
             </li>
 
+            <!-- Data Supplier -->
+            <li class="nav-header">Data Supplier</li>
+            <li class="nav-item">
+                <a href="{{ url('/supplier') }}" class="nav-link {{ $activeMenu == 'supplier' ? 'active' : '' }}">
+                    <i class="nav-icon fas fa-truck"></i>
+                    <p>Supplier Barang</p>
+                </a>
+            </li>
+
+            <!-- Logout -->
+            <li class="nav-item">
+                <a href="{{ url('/logout') }}" class="nav-link bg-danger text-white">
+                    <i class="nav-icon fas fa-sign-out-alt"></i>
+                    <p>Logout</p>
+                </a>
+            </li>
         </ul>
     </nav>
 </div>
