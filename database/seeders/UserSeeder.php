@@ -123,14 +123,7 @@ class UserSeeder extends Seeder
             ],
 
             // Kasir (Baru Ditambahkan)
-            [
-                'level_id'  => 4,
-                'username'  => 'kasir1',
-                'nama'      => 'Kasir Satu',
-                'password'  => Hash::make('kasir123'),
-                'created_at'=> Carbon::now(),
-                'updated_at'=> Carbon::now(),
-            ],
+            
         ];
 
         // Masukkan data ke tabel
