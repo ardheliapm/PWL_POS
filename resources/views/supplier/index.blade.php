@@ -8,6 +8,7 @@
                 <a href="{{ url('/supplier/create') }}" class="btn btn-primary">Tambah Data</a>
                 <button onclick="modalAction('{{ url('/supplier/create_ajax') }}')" class="btn btn-success">Tambah Data
                     (Ajax)</button>
+                    <button onclick="modalAction('{{ url('/supplier/import') }}')" class="btn btn-info">Import Supplier</button>
             </div>
         </div>
         <div class="card-body">
