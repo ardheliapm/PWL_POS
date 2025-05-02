@@ -8,6 +8,9 @@
                 <a class="btn btn-sm btn-primary mt-1" href="{{ url('level/create') }}">Tambah</a>
                 <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah
                     Ajax</button>
+                    <button onclick="modalAction('{{ url('/level/import') }}')" class="btn btn-info btn-sm">Import Level</button>
+
+
             </div>
         </div>
         <div class="card-body">
