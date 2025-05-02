@@ -6,6 +6,7 @@ use App\Models\KategoriModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class KategoriController extends Controller
 {
@@ -317,4 +318,71 @@ class KategoriController extends Controller
             'kategori' => $kategori,
         ]);
     }
+
+    public function import()
+    {
+        return view('kategori.import');
+    }
+
+    public function import_ajax(Request $request)
+    {
+        if ($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'file_kategori' => ['required', 'mimes:xlsx', 'max:1024']
+            ];
+
+            $validator = Validator::make($request->all(), $rules);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+
+            $file = $request->file('file_kategori');
+
+            try {
+                $reader = IOFactory::createReader('Xlsx');
+                $reader->setReadDataOnly(true);
+                $spreadsheet = $reader->load($file->getRealPath());
+                $sheet = $spreadsheet->getActiveSheet();
+                $data = $sheet->toArray(null, false, true, true); // Kolom A, B
+
+                $inserted = 0;
+                foreach ($data as $key => $row) {
+                    if ($key === 1) continue; // Skip header
+
+                    $kategoriKode = $row['A'] ?? null;
+                    $kategoriNama = $row['B'] ?? null;
+
+                    if ($kategoriKode && $kategoriNama) {
+                        $existing = KategoriModel::where('kategori_kode', $kategoriKode)->first();
+                        if (!$existing) {
+                            KategoriModel::create([
+                                'kategori_kode' => $kategoriKode,
+                                'kategori_nama' => $kategoriNama
+                            ]);
+                            $inserted++;
+                        }
+                    }
+                }
+
+                return response()->json([
+                    'status' => true,
+                    'message' => "Import berhasil. $inserted data kategori ditambahkan."
+                ]);
+            } catch (\Exception $e) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Terjadi kesalahan saat memproses file: ' . $e->getMessage()
+                ]);
+            }
+        }
+
+        return redirect('/');
+    }
+
+
 }
