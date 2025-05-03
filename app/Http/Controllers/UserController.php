@@ -10,6 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Hash;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class UserController extends Controller
 {
@@ -590,4 +591,6 @@ class UserController extends Controller
     $writer->save('php://output');
     exit;
 }
+
+
 }
