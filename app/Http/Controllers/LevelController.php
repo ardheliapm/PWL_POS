@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\LevelModel;
+use App\Models\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\Facades\DataTables;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+
 class LevelController extends Controller
 {
     public function index()
@@ -387,52 +389,54 @@ class LevelController extends Controller
 
     public function export_excel()
     {
-        // ambil data level yang akan di export
-        $level = LevelModel::select('level_kode', 'level_nama',)
-            ->get();
-
-        // load library excel
+        // Ambil data user beserta relasi ke level
+        $users = UserModel::with('level')->get();
+    
         $spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet(); // ambil sheet yang aktif
-
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // Header kolom
         $sheet->setCellValue('A1', 'ID');
-        $sheet->setCellValue('B1', 'Level Kode');
-        $sheet->setCellValue('C1', 'Level Nama');
-
-
-        $sheet->getStyle('A1:C1')->getFont()->setBold(true); // bold header
-
-        $no = 1; // nomor data dimulai dari 1
-        $baris = 2; // baris data dimulai dari baris ke 2
-
-        foreach ($level as $key => $value) {
+        $sheet->setCellValue('B1', 'Username');
+        $sheet->setCellValue('C1', 'Nama');
+        $sheet->setCellValue('D1', 'Level Pengguna');
+    
+        // Bold header
+        $sheet->getStyle('A1:D1')->getFont()->setBold(true);
+    
+        // Isi data
+        $no = 1;
+        $baris = 2;
+        foreach ($users as $user) {
             $sheet->setCellValue('A' . $baris, $no);
-            $sheet->setCellValue('B' . $baris, $value->level_kode);
-            $sheet->setCellValue('C' . $baris, $value->level_nama);
-
-            $baris++;
+            $sheet->setCellValue('B' . $baris, $user->username);
+            $sheet->setCellValue('C' . $baris, $user->nama);
+            $sheet->setCellValue('D' . $baris, $user->level->level_nama ?? '-'); // pakai null coalescing kalau tidak ada relasi
+    
             $no++;
+            $baris++;
         }
-
-        foreach (range('A', 'C') as $columnID) {
-            $sheet->getColumnDimension($columnID)->setAutoSize(true); // set auto size untuk kolom
+    
+        // Auto size kolom
+        foreach (range('A', 'D') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
         }
-
-        $sheet->setTitle('Data Level'); // set title sheet
-
+    
+        $sheet->setTitle('Data User');
+    
+        // Output file
         $writer = IOFactory::createWriter($spreadsheet, 'Xlsx');
-        $filename = 'Data Level ' . date('Y-m-d H:i:s') . '.xlsx';
-
+        $filename = 'Data User ' . date('Y-m-d H-i-s') . '.xlsx';
+    
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
-        header('Cache-Control: max-age=1');
         header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Cache-Control: cache, must-revalidate');
         header('Pragma: public');
-
+    
         $writer->save('php://output');
         exit;
-    } 
+    }
 }
