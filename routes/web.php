@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::delete('/level/{id}', [LevelController::class, 'destroy']);     // Menghapus data level
             Route::get('/level/import', [LevelController::class, 'import']); //ajax form upload excel
             Route::post('/level/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excel
+            Route::get('/level/export_excel',[LevelController::class, 'export_excel']); //export excel
     });
 
     Route::middleware(['authorize:ADM,MNG,STF'])->group(function () { //hanya level admin,manager,staff yang dapat mengakses menu user
