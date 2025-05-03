@@ -593,4 +593,19 @@ class UserController extends Controller
 }
 
 
+
+public function export_pdf()
+{
+    // Ambil semua data user
+    $users = UserModel::select('id', 'username', 'nama', 'level_id')->get();
+
+    // Kirim data ke view
+    $pdf = Pdf::loadView('export_pdf', ['users' => $users]);
+
+    // Unduh PDF
+    return $pdf->download('daftar_user.pdf');
+}
+
+
+
 }
