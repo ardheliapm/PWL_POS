@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('m_user',function(Blueprint $table) {
+        Schema::create('m_user', function (Blueprint $table) {
             $table->id('user_id');
-            $table->unsignedBigInteger('level_id')->index();
-            $table->string('username', 20)->unique();
+            $table->unsignedBigInteger('level_id')->index(); // foreign key index
+            $table->string('username', 20)->unique(); // memastikan tidak ada username yang sama
             $table->string('nama', 100);
             $table->string('password');
+            $table->string('profile_picture')->nullable(); // kolom tambahan untuk foto profil
             $table->timestamps();
 
+            // foreign key constraint
             $table->foreign('level_id')->references('level_id')->on('m_level');
         });
     }
@@ -28,8 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('m_user', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('m_user');
     }
 };
