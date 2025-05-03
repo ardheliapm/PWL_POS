@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () { // artinya semua route di dalam
             Route::post('/level/import_ajax', [LevelController::class, 'import_ajax']); // ajax import excel
             Route::get('/level/export_excel',[LevelController::class, 'export_excel']); //export excel
             Route::get('/level/export_pdf', [LevelController::class, 'export_pdf']); // export pdf
+            Route::get('/level/export_pdf', [LevelController::class, 'export_pdf']); // export pdf
     });
 
     Route::middleware(['authorize:ADM,MNG,STF'])->group(function () { //hanya level admin,manager,staff yang dapat mengakses menu user
